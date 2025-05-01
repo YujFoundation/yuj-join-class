@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Join Yuj Foundation Class</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f0fff0, #e0f7fa);
+      text-align: center;
+      padding: 40px;
+    }
+    .container {
+      background-color: #fff;
+      max-width: 400px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 12px;
+      width: 90%;
+      margin: 10px 0;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #2E8B57;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #246b45;
+    }
+    #response {
+      margin-top: 20px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🔒 Join Yuj Foundation Class</h2>
+  <p>Please enter your <b>registered phone number</b> to continue:</p>
+  
+  <input id="phone" type="text" placeholder="Enter phone number" />
+  <button onclick="verifyPhone()">Verify</button>
+
+  <div id="response"></div>
+</div>
+
+<script>
+  function verifyPhone() {
+    const phone = document.getElementById("phone").value.trim();
+    const responseBox = document.getElementById("response");
+
+    if (!phone) {
+      responseBox.innerHTML = "⚠️ Please enter your phone number.";
+      return;
+    }
+
+    responseBox.innerHTML = "🔄 Verifying...";
+
+    fetch('https://your-backend-url.com/verify', {  // Replace with your backend URL
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ phone: phone })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        responseBox.innerHTML = "✅ Verified! Redirecting to class...";
+        setTimeout(() => {
+          window.location.href = data.link;
+        }, 1500);
+      } else if (data.status === 'not_scheduled') {
+        responseBox.innerHTML = "✅ You're verified, but the class is not scheduled yet. Please check WhatsApp group.";
+      } else if (data.status === 'not_found') {
+        responseBox.innerHTML = `
+          ❌ Your number is not registered.<br>
+          👉 <a href="https://razorpay.me/@parteeplifeeducationfoundatio" target="_blank">Click here to register</a>
+        `;
+      } else {
+        responseBox.innerHTML = "❌ An error occurred. Please try again later.";
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      responseBox.innerHTML = "❌ Could not connect to server.";
+    });
+  }
+</script>
+
+</body>
+</html>
