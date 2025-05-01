@@ -1,101 +1,173 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Join Yuj Foundation Class</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #f0fff0, #e0f7fa);
-      text-align: center;
-      padding: 40px;
-    }
-    .container {
-      background-color: #fff;
-      max-width: 400px;
-      margin: auto;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    input, button {
-      padding: 12px;
-      width: 90%;
-      margin: 10px 0;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #2E8B57;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #246b45;
-    }
-    #response {
-      margin-top: 20px;
-      font-size: 15px;
-    }
-  </style>
-</head>
-<body>
-
-<div class="container">
-  <h2>🔒 Join Yuj Foundation Class</h2>
-  <p>Please enter your <b>registered phone number</b> to continue:</p>
-  
-  <input id="phone" type="text" placeholder="Enter phone number" />
-  <button onclick="verifyPhone()">Verify</button>
-
-  <div id="response"></div>
-</div>
-
-<script>
-  function verifyPhone() {
-    const phone = document.getElementById("phone").value.trim();
-    const responseBox = document.getElementById("response");
-
-    if (!phone) {
-      responseBox.innerHTML = "⚠️ Please enter your phone number.";
-      return;
-    }
-
-    responseBox.innerHTML = "🔄 Verifying...";
-
-    fetch('https://your-backend-url.com/verify', {  // Replace with your backend URL
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ phone: phone })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        responseBox.innerHTML = "✅ Verified! Redirecting to class...";
-        setTimeout(() => {
-          window.location.href = data.link;
-        }, 1500);
-      } else if (data.status === 'not_scheduled') {
-        responseBox.innerHTML = "✅ You're verified, but the class is not scheduled yet. Please check WhatsApp group.";
-      } else if (data.status === 'not_found') {
-        responseBox.innerHTML = `
-          ❌ Your number is not registered.<br>
-          👉 <a href="https://razorpay.me/@parteeplifeeducationfoundatio" target="_blank">Click here to register</a>
-        `;
-      } else {
-        responseBox.innerHTML = "❌ An error occurred. Please try again later.";
+  <head>
+    <meta charset="UTF-8">
+    <title>Join Yuj Foundation Class</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #e0f7fa, #e0ffe0);
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        color: #333;
       }
-    })
-    .catch(err => {
-      console.error(err);
-      responseBox.innerHTML = "❌ Could not connect to server.";
-    });
-  }
-</script>
+      .banner {
+        width: 100%;
+        background-color: #2E8B57;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+      .container {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        text-align: center;
+        max-width: 400px;
+        margin: 30px auto;
+      }
+      h2 {
+        color: #2E8B57;
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      input {
+        padding: 12px;
+        width: 90%;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+      button {
+        padding: 12px 30px;
+        background: #2E8B57;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      button:hover {
+        background: #1e6642;
+      }
+      #response {
+        margin-top: 20px;
+        font-size: 15px;
+      }
+      a {
+        color: #2E8B57;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .footer {
+        text-align: center;
+        font-size: 13px;
+        color: #555;
+        max-width: 500px;
+        padding: 20px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+      .footer b {
+        color: #2E8B57;
+      }
+    </style>
+  </head>
+  <body>
 
-</body>
+    <div class="banner">
+      🔒 Secured & Verified Access by Yuj Foundation
+    </div>
+
+    <div class="container">
+      <h2>🔒 Join Yuj Foundation Class</h2>
+      <p>Please enter your <b>registered phone number</b> to continue:</p>
+
+      <input id="phone" placeholder="Enter phone number">
+      <br>
+      <button onclick="verify()">🔎 Verify</button>
+
+      <div id="response"></div>
+    </div>
+
+    <div class="footer">
+      <b>(+91)-9810019967</b><br>
+      “We honor those who have had the courage to live differently and strove to enhance the quality of human life.”<br><br>
+      📧 <b>Email:</b> yujsaadhna@gmail.com | care@yujfoundation.in<br>
+      🌐 <b>Website:</b> <a href="https://yujfoundation.in" target="_blank">yujfoundation.in</a> | 
+      <a href="https://yujfoundation.graphy.com" target="_blank">yujfoundation.graphy.com</a><br>
+      🎥 <b>YouTube:</b> <a href="https://www.youtube.com/@YujFoundation" target="_blank">@YujFoundation</a><br>
+      📢 <b>Telegram:</b> <a href="https://t.me/YujFoundation" target="_blank">t.me/YujFoundation</a><br><br>
+      Let’s Experience and Live Different 🌱<br><br>
+      © 2025 <b>Yuj Foundation</b> | All Rights Reserved<br>
+      <i>Yuj Foundation (A registered entity under PLEF)<br>
+      Section 8 Non-Profit Organization under the Companies Act, 2013</i>
+    </div>
+
+    <script>
+      function verify() {
+        const phone = document.getElementById("phone").value.trim();
+        const response = document.getElementById("response");
+
+        if (!phone) {
+          response.innerHTML = "⚠️ Please enter your phone number.";
+          return;
+        }
+
+        response.innerHTML = "🔄 Verifying...";
+
+        fetch("https://your-api-url.com/verify", {  // Replace with your deployed Python URL
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ phone })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "success") {
+            response.innerHTML = "✅ Verified! Redirecting to class...";
+            setTimeout(() => window.location.href = data.link, 1500);
+          } else if (data.status === "not_scheduled") {
+            response.innerHTML = "✅ You're verified, but class is not scheduled yet.";
+          } else if (data.status === "not_found") {
+            response.innerHTML = `
+              ❌ Your number is not registered.<br><br>
+              <a href="https://rzp.io/rzp/Taxila_Vishwavidyalya" target="_blank"
+                 style="display:inline-block;padding:12px 25px;margin-top:10px;background-color:#2E8B57;
+                 color:white;border-radius:8px;text-decoration:none;font-weight:bold;font-size:16px;">
+                 👉 Click here to complete your registration/payment
+              </a>
+            `;
+          } else {
+            response.innerHTML = "❌ Something went wrong. Please try again.";
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          response.innerHTML = "❌ Could not connect to server.";
+        });
+      }
+    </script>
+
+  </body>
 </html>
+
